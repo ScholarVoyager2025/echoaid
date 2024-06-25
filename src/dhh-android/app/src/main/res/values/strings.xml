@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">AudioCapturer</string>
+    <string name="com_example_floating_resize_event">com.example.FLOATING_RESIZE_EVENT</string>
+    <string name="transcriptionTextDefault">原文字幕</string>
+    <string name="concentrationTextDefault">浓缩中，请稍后…</string>
+    <string name="jsonTextDefault">建立框架中，请稍后…</string>
+</resources>

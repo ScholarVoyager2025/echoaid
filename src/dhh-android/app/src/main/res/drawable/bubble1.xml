@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--https://stackoverflow.com/a/27607600-->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- 对话框的主体部分 -->
+    <item
+        android:left="@dimen/speech_bubble_corners_plus_tail"
+        android:right="@dimen/speech_bubble_corners"
+        android:bottom="@dimen/speech_bubble_spacing"
+        tools:width="50dp"
+        tools:height="50dp">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/speech_bubble_black"/>
+        </shape>
+    </item>
+
+    <!-- 右边界 -->
+    <item
+        android:top="@dimen/speech_bubble_corners"
+        android:bottom="@dimen/speech_bubble_corners_plus_tail"
+        android:gravity="right"
+        android:width="@dimen/speech_bubble_corners">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/speech_bubble_black"/>
+        </shape>
+    </item>
+
+    <!-- 左边界 -->
+    <item
+        android:top="@dimen/speech_bubble_corners"
+        android:bottom="@dimen/speech_bubble_corners_plus_tail"
+        android:left="@dimen/speech_bubble_spacing"
+        android:gravity="left"
+        android:width="@dimen/speech_bubble_corners">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/speech_bubble_black"/>
+        </shape>
+    </item>
+
+    <!-- 右下角 -->
+    <item
+        android:width="@dimen/speech_bubble_corners"
+        android:height="@dimen/speech_bubble_corners"
+        android:bottom="@dimen/speech_bubble_spacing"
+        android:gravity="bottom|right">
+        <vector xmlns:android="http://schemas.android.com/apk/res/android"
+            android:width="@dimen/speech_bubble_corners"
+            android:height="@dimen/speech_bubble_corners"
+            android:viewportWidth="10.0"
+            android:viewportHeight="10.0">
+            <path
+                android:pathData="M0,10 A15,15 0 0,0 10,0 L0,0 Z"
+                android:fillColor="@color/speech_bubble_black"/>
+        </vector>
+    </item>
+
+    <!-- 左上角 -->
+    <item
+        android:width="@dimen/speech_bubble_corners"
+        android:height="@dimen/speech_bubble_corners"
+        android:left="@dimen/speech_bubble_spacing"
+        android:gravity="top|left">
+        <vector xmlns:android="http://schemas.android.com/apk/res/android"
+            android:width="@dimen/speech_bubble_corners"
+            android:height="@dimen/speech_bubble_corners"
+            android:viewportWidth="10.0"
+            android:viewportHeight="10.0">
+            <path
+                android:pathData="M0,10 A10,10 0 0,1 10,0 L10,10 Z"
+                android:fillColor="@color/speech_bubble_black"/>
+        </vector>
+    </item>
+
+    <!-- 右上角 -->
+    <item
+        android:width="@dimen/speech_bubble_corners"
+        android:height="@dimen/speech_bubble_corners"
+        android:gravity="top|right">
+        <vector xmlns:android="http://schemas.android.com/apk/res/android"
+            android:width="@dimen/speech_bubble_corners"
+            android:height="@dimen/speech_bubble_corners"
+            android:viewportWidth="10.0"
+            android:viewportHeight="10.0">
+            <path
+                android:pathData="M10,10 A10,10 0 0,0 0,0 L0,10 Z"
+                android:fillColor="@color/speech_bubble_black"/>
+        </vector>
+    </item>
+
+    <!-- 左下角的气泡尾巴 -->
+    <item
+        android:width="@dimen/speech_bubble_corners_plus_tail"
+        android:height="@dimen/speech_bubble_corners_plus_tail"
+        android:gravity="bottom|left">
+        <vector xmlns:android="http://schemas.android.com/apk/res/android"
+            android:width="@dimen/speech_bubble_corners_plus_tail"
+            android:height="@dimen/speech_bubble_corners_plus_tail"
+            android:viewportWidth="150.0"
+            android:viewportHeight="150.0">
+            <path
+                android:pathData="M150,100 C142.326908,100 135.80648,100.346373 129.499244,99.0996492 C106.337104,129.872031 55.8301753,146.306561 -0.32084322,150.792562 C36.8313073,130.799632 62.7191007,98.5054948 68.9191176,68.6524321 C55.8722883,51.7595331 50,23.9957121 50,0 L150,0 L150,100 Z"
+                android:fillColor="@color/speech_bubble_black"/>
+        </vector>
+    </item>
+
+</layer-list>

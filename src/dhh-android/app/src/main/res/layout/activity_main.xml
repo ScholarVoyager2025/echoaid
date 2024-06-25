@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/mainTestButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="开启"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp"
+        />
+
+    <SeekBar
+        android:layout_marginBottom="20dp"
+        android:id="@+id/widthBar"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:min="300"
+        android:max="650"
+        android:progress="525"
+        android:layout_below="@id/mainTestButton"/>
+
+    <SeekBar
+        android:layout_marginBottom="20dp"
+
+        android:id="@+id/heightBar"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:min="300"
+        android:max="800"
+        android:progress="525"
+        android:layout_below="@id/widthBar"/>
+
+
+
+    <SeekBar
+        android:id="@+id/fontSizeBar"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:min="12"
+        android:max="60"
+        android:progress="20"
+        android:layout_below="@id/heightBar"
+        android:layout_marginBottom="20dp"
+        />
+
+
+    <SeekBar
+        android:id="@+id/alphaBar"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:min="10"
+        android:max="100"
+        android:progress="70"
+        android:layout_below="@id/fontSizeBar"
+        android:layout_marginBottom="20dp"
+        />
+<!--    <TextView-->
+<!--        android:id="@+id/transcriptionTextView"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Transcription result will appear here"-->
+<!--        android:layout_below="@id/mainTestButton"-->
+<!--        android:padding="16dp"-->
+<!--        android:textSize="16sp"/>-->
+
+    <LinearLayout
+        android:id="@+id/main_switch_backgrounds"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/alphaBar"
+        android:gravity="center"
+        >
+
+        <Button
+            android:id="@+id/main_switch_background_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="背景 1"/>
+
+        <Button
+            android:id="@+id/main_switch_background_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="背景 2"/>
+
+        <Button
+            android:id="@+id/main_switch_background_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="背景 3"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/mainLayoutFloatingInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="宽度\n高度\n字体大小\n透明度"
+        android:layout_below="@id/main_switch_backgrounds"
+        android:padding="16dp"
+        android:textSize="16sp"
+        android:layout_marginBottom="20dp"
+        />
+
+    <Button
+        android:id="@+id/mainExportLog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="导出日志到 Download 目录"
+        android:layout_below="@id/mainLayoutFloatingInfo"
+        android:layout_centerHorizontal="true"
+        />
+</RelativeLayout>

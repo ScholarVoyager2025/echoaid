@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="speech_bubble_corners">20dp</dimen>
+    <dimen name="speech_bubble_corners_plus_tail">30dp</dimen>
+    <dimen name="speech_bubble_spacing">10dp</dimen>
+</resources>
