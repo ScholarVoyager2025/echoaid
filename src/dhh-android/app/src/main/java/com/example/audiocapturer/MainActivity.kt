@@ -29,6 +29,10 @@ import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.FileWriter
 import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
+import java.util.TimeZone
 import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
@@ -43,6 +47,10 @@ class MainActivity : AppCompatActivity() {
     private lateinit var barAlpha: SeekBar
 
     private lateinit var textFloatingWindowInfo: TextView
+    private lateinit var textHeight: TextView
+    private lateinit var textWidth: TextView
+    private lateinit var textFontSize: TextView
+    private lateinit var textTransparency: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,6 +81,12 @@ class MainActivity : AppCompatActivity() {
                 exportLogFileToDownload(getLogFile())
             }
 
+        findViewById<Button>(R.id.mainShowHistory)
+            .setOnClickListener{
+                val intent = Intent(this, HistoryActivity::class.java)
+                startActivity(intent)
+            }
+
         barWidth = findViewById<SeekBar>(R.id.widthBar)
         barWidth
             .setOnSeekBarChangeListener(createSeekBarListener {
@@ -98,6 +112,11 @@ class MainActivity : AppCompatActivity() {
             })
 
         textFloatingWindowInfo = findViewById(R.id.mainLayoutFloatingInfo)
+        textHeight = findViewById(R.id.mainHeightText)
+        textWidth = findViewById(R.id.mainWidthText)
+        textFontSize = findViewById(R.id.mainFontSizeText)
+        textTransparency = findViewById(R.id.mainTransparencyText)
+
 
 //        transcriptionTextView = findViewById(R.id.transcriptionTextView)
 //        val startTranscriptionButton: Button = findViewById(R.id.startTranscriptionButton)
@@ -118,9 +137,19 @@ class MainActivity : AppCompatActivity() {
                     return@registerForActivityResult
                 }
 
+                //
+
+                val timestamp = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault()).apply {
+                    timeZone = TimeZone.getTimeZone("UTC")
+                }.format(Date()) // 使用当前时间
+                val fileName = "$timestamp.txt"
+                val resultFile = createFile(fileName)
+                MyLog.i("history", "Create file: $fileName")
+
                 val intent = Intent(this, AudioCaptureService::class.java)
                 intent.putExtra("resultCode", resultCode)
                 intent.putExtra("data", data)
+                intent.putExtra(AudioCaptureService.FILE_PATH, resultFile.path)
                 startForegroundService(intent)
 
                 updateFloatingAttributes(
@@ -132,6 +161,21 @@ class MainActivity : AppCompatActivity() {
                     )
                 )
             }
+    }
+
+    private fun createFile(fileName: String): File {
+        val historyDir = File(filesDir, "history")
+        if (!historyDir.exists()) {
+            historyDir.mkdir()
+        }
+
+        val file = File(historyDir, "$fileName.txt")
+
+        if (!file.exists()) {
+            file.createNewFile()
+        }
+
+        return file
     }
 
     override fun onStart() {
@@ -352,14 +396,19 @@ class MainActivity : AppCompatActivity() {
                     Toast.LENGTH_SHORT
                 ).show()
 
+                val timestamp = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault()).apply {
+                    timeZone = TimeZone.getTimeZone("UTC")
+                }.format(Date()) // 使用当前时间
+                val fileName = "history/$timestamp.txt"
+                val file = createFile(fileName)
+                MyLog.i("history", "Create file: $fileName")
+
                 val audioCaptureIntent = Intent(this, AudioCaptureService::class.java).apply {
                     action = AudioCaptureService.ACTION_START
                     putExtra(AudioCaptureService.EXTRA_RESULT_DATA, data!!)
+                    putExtra(AudioCaptureService.FILE_PATH, file.path)
                 }
                 startForegroundService(audioCaptureIntent)
-
-
-                setButtonsEnabled(isCapturingAudio = true)
             } else {
                 Toast.makeText(
                     this, "Request to obtain MediaProjection denied.",
@@ -401,6 +450,11 @@ class MainActivity : AppCompatActivity() {
     private fun showFloatingWindowInfo() {
         val text = "宽度: ${barWidth.progress}\n高度${barHeight.progress}\n字体大小${barFontSize.progress}\n透明度${100 - barAlpha.progress}%"
         textFloatingWindowInfo.text = text
+
+        textWidth.text = barWidth.progress.toString()
+        textHeight.text = barHeight.progress.toString()
+        textFontSize.text = barFontSize.progress.toString()
+        textTransparency.text = (100 - barAlpha.progress).toString()
     }
 
     private fun openLogFile(): FileWriter {

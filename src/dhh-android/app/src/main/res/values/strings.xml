@@ -1,7 +1,20 @@
 <resources>
     <string name="app_name">AudioCapturer</string>
     <string name="com_example_floating_resize_event">com.example.FLOATING_RESIZE_EVENT</string>
-    <string name="transcriptionTextDefault">原文字幕</string>
-    <string name="concentrationTextDefault">浓缩中，请稍后…</string>
-    <string name="jsonTextDefault">建立框架中，请稍后…</string>
+    <string name="transcriptionTextDefault">[Transcription]</string>
+    <string name="concentrationTextDefault">Concentration in progress</string>
+    <string name="jsonTextDefault">Keyword in progress</string>
+    <string name="start">Start</string>
+    <string name="background1">B.G. 1</string>
+    <string name="background2">B.G. 2</string>
+    <string name="background3">B.G. 3</string>
+    <string name="width">Width</string>
+    <string name="height">Height</string>
+    <string name="fontSize">Font Size</string>
+    <string name="transparency">Transparency</string>
+    <string name="viewHistory">History Record</string>
+    <string name="exportLogsToDownloadDirectory">Export Logs to Download Directory</string>
+    <string name="startCapture">Start Capture</string>
+    <string name="clear">Clear</string>
+    <string name="switchInterface1Of3">Switch (1/3)</string>
 </resources>

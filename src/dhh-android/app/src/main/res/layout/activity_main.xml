@@ -9,56 +9,129 @@
         android:id="@+id/mainTestButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="开启"
+        android:text="@string/start"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="100dp"
         />
 
-    <SeekBar
-        android:layout_marginBottom="20dp"
-        android:id="@+id/widthBar"
-        android:layout_width="300dp"
+    <TableLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:min="300"
-        android:max="650"
-        android:progress="525"
-        android:layout_below="@id/mainTestButton"/>
+        android:layout_below="@id/mainTestButton"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="24dp"
+        android:id="@+id/mainTableL"
+        >
 
-    <SeekBar
-        android:layout_marginBottom="20dp"
+        <TableRow>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/width"
+                android:layout_marginRight="10sp"
+                />
 
-        android:id="@+id/heightBar"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:min="300"
-        android:max="800"
-        android:progress="525"
-        android:layout_below="@id/widthBar"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="525"
+                android:id="@+id/mainWidthText"
+                android:minWidth="40sp"
 
+                />
 
+            <SeekBar
+                android:layout_marginBottom="20dp"
+                android:id="@+id/widthBar"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:min="300"
+                android:max="650"
+                android:progress="525"
+                />
 
-    <SeekBar
-        android:id="@+id/fontSizeBar"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:min="12"
-        android:max="60"
-        android:progress="20"
-        android:layout_below="@id/heightBar"
-        android:layout_marginBottom="20dp"
-        />
+        </TableRow>
 
+        <TableRow>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10sp"
+                android:text="@string/height"
+                />
 
-    <SeekBar
-        android:id="@+id/alphaBar"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:min="10"
-        android:max="100"
-        android:progress="70"
-        android:layout_below="@id/fontSizeBar"
-        android:layout_marginBottom="20dp"
-        />
+            <TextView
+                android:id="@+id/mainHeightText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="525"
+                android:minWidth="40sp"
+            />
+
+            <SeekBar
+                android:layout_marginBottom="20dp"
+
+                android:id="@+id/heightBar"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:min="300"
+                android:max="800"
+                android:progress="525"/>
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/fontSize"
+                android:layout_marginRight="10sp"
+
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/mainFontSizeText"
+                android:minWidth="40sp"
+
+                android:text="20"/>
+            <SeekBar
+                android:id="@+id/fontSizeBar"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:min="12"
+                android:max="60"
+                android:progress="20"
+                android:layout_marginBottom="20dp"
+                />
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10sp"
+                android:text="@string/transparency"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/mainTransparencyText"
+                android:minWidth="40sp"
+
+                android:text="30"/>
+
+            <SeekBar
+                android:id="@+id/alphaBar"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:max="100"
+                android:min="10"
+                android:progress="70" />
+        </TableRow>
+
+    </TableLayout>
 <!--    <TextView-->
 <!--        android:id="@+id/transcriptionTextView"-->
 <!--        android:layout_width="match_parent"-->
@@ -72,7 +145,7 @@
         android:id="@+id/main_switch_backgrounds"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/alphaBar"
+        android:layout_below="@id/mainTableL"
         android:gravity="center"
         >
 
@@ -80,19 +153,19 @@
             android:id="@+id/main_switch_background_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="背景 1"/>
+            android:text="@string/background1"/>
 
         <Button
             android:id="@+id/main_switch_background_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="背景 2"/>
+            android:text="@string/background2"/>
 
         <Button
             android:id="@+id/main_switch_background_3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="背景 3"/>
+            android:text="@string/background3"/>
 
     </LinearLayout>
 
@@ -105,14 +178,26 @@
         android:padding="16dp"
         android:textSize="16sp"
         android:layout_marginBottom="20dp"
+        android:visibility="invisible"
         />
 
     <Button
         android:id="@+id/mainExportLog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="导出日志到 Download 目录"
+        android:text="@string/exportLogsToDownloadDirectory"
         android:layout_below="@id/mainLayoutFloatingInfo"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone"
+        />
+
+    <Button
+        android:id="@+id/mainShowHistory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/viewHistory"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="30sp"
         android:layout_centerHorizontal="true"
         />
 </RelativeLayout>

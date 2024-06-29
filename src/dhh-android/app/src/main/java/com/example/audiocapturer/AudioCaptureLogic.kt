@@ -28,7 +28,10 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.withContext
+import java.io.File
+import java.io.IOException
 import java.io.Serializable
 import java.time.LocalDateTime
 import kotlin.random.Random
@@ -38,8 +41,10 @@ class AudioCaptureLogic(private val context: AudioCaptureService){
 
     }
 
+    private var saveMutex: Mutex = Mutex()
     private var textType = 1
-    val wordContainer = WordContainer()
+    val liveWordContainer = WordContainer()
+    val fullWordContainer = WordContainer()
     private val repeatingTask: RepeatingTask = RepeatingTask(30000) {
         callLlm()
     }
@@ -164,6 +169,8 @@ class AudioCaptureLogic(private val context: AudioCaptureService){
         else
             context.registerReceiver(attrsReceiver, filter, RECEIVER_EXPORTED)
 
+
+        Thread.sleep(100L)
         updateFloatingLayout(FloatingWindowAttributes(backgroundId = 1))
     }
 
@@ -193,18 +200,18 @@ class AudioCaptureLogic(private val context: AudioCaptureService){
             textJson.visibility = if(textType == 3) { View.VISIBLE } else {View.GONE}
         }
 
-        buttonSwitch.text = "切换界面($textType/3)"
+        buttonSwitch.text = "Switch ($textType/3)"
     }
 
     private fun callLlm() {
-        MyLog.d("llm", "提取文本：" + wordContainer.getText())
+        MyLog.d("llm", "提取文本：" + liveWordContainer.getText())
         GlobalScope.launch {
             context.callLlm()
         }
     }
 
     private fun clearContext() {
-        wordContainer.clear()
+        liveWordContainer.clear()
         text1.text = context.getString(R.string.transcriptionTextDefault)
         text1.scrollY = 0
         textConcentration.text = context.getString(R.string.concentrationTextDefault)
@@ -214,19 +221,20 @@ class AudioCaptureLogic(private val context: AudioCaptureService){
     }
 
     fun newTranscription(message: TranscriptionMessage) {
+        // 更新文本
+        message.segmentedData.getAbsolute(
+            context.startTime ?: LocalDateTime.MIN
+        ).let {
+            liveWordContainer.addWords(it)
+            fullWordContainer.addWords(it)
+        }
         GlobalScope.launch(Dispatchers.Main) {
             // 保存当前滚动位置和原文本长度
             val oldScrollAmount = (text1.layout?.getLineTop(text1.lineCount) ?: 0) - text1.height   // 在调整 layout 时，有概率会变成 null，要加一个 ?.
-            val oldTextLength = wordContainer.getText().length
+            val oldTextLength = liveWordContainer.getText().length
             val isAtBottom = oldScrollAmount <= text1.scrollY
 
-            // 更新文本
-            wordContainer.addWords(
-                message.segmentedData.getAbsolute(
-                    context.startTime ?: LocalDateTime.MIN
-                )
-            )
-            text1.text = wordContainer.getText()
+            text1.text = liveWordContainer.getText()
 
             // find the amount we need to scroll.  This works by
             // asking the TextView's internal layout for the position
@@ -240,6 +248,46 @@ class AudioCaptureLogic(private val context: AudioCaptureService){
             val scrollY = text1.scrollY
             if (isAtBottom && scrollAmount > 0)
                 text1.scrollTo(0, scrollAmount)
+        }
+        GlobalScope.launch {
+            if(saveMutex.tryLock()){
+                MyLog.d("history", "mutex locked.")
+                try{
+                    saveFullTranscription()
+                }finally {
+                    saveMutex.unlock()
+                }
+            }
+        }
+    }
+
+    private fun saveFullTranscription() {
+        val targetFile = context.transcriptionFile ?: return;
+
+        // 先写入临时文件，然后覆盖
+        MyLog.d("history", "ParentFile ${targetFile.parentFile}, Name ${targetFile.name + ".tmp"}")
+        val tempFile = File(targetFile.parentFile, targetFile.name + ".tmp")
+        try{
+            if(!tempFile.exists()) {
+                MyLog.d("history", "tempFile ${tempFile.path} not exist")
+                tempFile.createNewFile()
+            }
+            tempFile.writeText(fullWordContainer.getText())
+
+            if(tempFile.renameTo(targetFile)) {
+                MyLog.i("history", "保存成功")
+            } else {
+                throw IOException("尝试重命名失败")
+            }
+        }
+        catch (e: Exception) {
+            e.printStackTrace()
+            MyLog.e("history", "保存失败", e)
+        }
+        finally {
+            if(tempFile.exists()) {
+                tempFile.delete()
+            }
         }
     }
 

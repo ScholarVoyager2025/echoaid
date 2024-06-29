@@ -39,6 +39,7 @@ import kotlin.experimental.and
 
 
 class AudioCaptureService : Service() {
+    var transcriptionFile: File? = null
     private var audioFormat: AudioFormat? = null
     private lateinit var mediaProjectionManager: MediaProjectionManager
     private var mediaProjection: MediaProjection? = null
@@ -87,6 +88,11 @@ class AudioCaptureService : Service() {
             intent!!.getIntExtra("resultCode", Activity.RESULT_OK),
             intent.getParcelableExtra("data")!!
         )
+
+        transcriptionFile = intent.getStringExtra(FILE_PATH)?.let {
+            val file = File(it)
+            file
+        }
 
         logic = AudioCaptureLogic(this)
         logic.showFloatingWindow()
@@ -239,8 +245,8 @@ class AudioCaptureService : Service() {
     }
 
     suspend fun callLlm() {
-        val input = logic.wordContainer.getText()
-        val inputRecent = logic.wordContainer.getTextSince(LocalDateTime.now().minusSeconds(40L))
+        val input = logic.liveWordContainer.getText()
+        val inputRecent = logic.liveWordContainer.getTextSince(LocalDateTime.now().minusSeconds(40L))
         MyLog.i("llm", "提示词1: $inputRecent")
         MyLog.i("llm", "提示词2: $input")
 
@@ -291,6 +297,7 @@ class AudioCaptureService : Service() {
         const val ACTION_START = "AudioCaptureService:Start"
         const val ACTION_STOP = "AudioCaptureService:Stop"
         const val EXTRA_RESULT_DATA = "AudioCaptureService:Extra:ResultData"
+        const val FILE_PATH = "AudioCaptureService:FileName"
     }
 }
 
