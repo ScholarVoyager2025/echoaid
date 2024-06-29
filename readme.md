@@ -2,7 +2,23 @@
 
 ## Introduction
 
-This is the code repository for the article `XXXXX`. It includes the source code, experiment records, and sample videos.
+This is the code repository for the article `XXXXX`. It includes the source code, experiment records, sample videos and introduction videos.
+
+## Experiment Records
+
+The records locate at `/data` directory. In `accuracy.md` file, there are results that evaluate system's accuracy and universality.
+
+## Sample Videos
+
+The sample Videos locate at `/video-exmples` directory. The examinees used these videos to test the system:
+
+1. Watermelon
+2. Bedding
+3. Toothpaste
+
+## Introduction Vidos
+
+The introduction videos located at `/video-introduction` directory. There are Chinese and English Versions.
 
 ## Preparation Before Running the Program
 
