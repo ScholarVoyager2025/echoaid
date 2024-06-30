@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This is the code repository for the article `XXXXX`. It includes the source code, experiment records, sample videos, and introduction videos.
+This is the code repository for the article `EchoAid: Enhancing Livestream Shopping Accessibility for the DHH Community`. It includes the source code, experiment records, sample videos, and introduction videos.
 
 ## Supplementary Materials
 
